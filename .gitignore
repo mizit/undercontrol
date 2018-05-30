@@ -1,0 +1,5 @@
+
+*.lock
+Under Control/Library/metadata/*
+Under Control/Library/ShaderCache/*
+Under Control/Temp/*
