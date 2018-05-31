@@ -61,162 +61,6 @@ public class BaseSlider
     }
 }
 
-/*public class Event
-{
-    private MonoBehaviour goal;
-    private 
-}*/
-
-public class GUIElement
-{
-    private Rect rect;
-    private Point position;
-    public Rect Rect
-    {
-        get
-        {
-            return rect;
-        }
-
-        set
-        {
-            rect = value;
-            position.x = rect.x;
-            position.y = rect.y;
-        }
-    }
-    public Point Position
-    {
-        get
-        {
-            return position;
-        }
-
-        set
-        {
-            position = value;
-            rect.x = position.x;
-            rect.y = position.y;
-        }
-    }
-
-    private bool dnd;
-    private bool dnd_allowed;
-    private bool pressed;
-    private Point dnd_offset;
-
-    private bool DnD
-    {
-        get
-        {
-            return dnd;
-        }
-
-        set
-        {
-            if (DnD_allowed)
-            {
-                dnd = value;
-            }
-            else
-            {
-                dnd = false;
-            }
-        }
-    }
-    public bool DnD_allowed
-    {
-        get
-        {
-            return dnd_allowed;
-        }
-
-        set
-        {
-            dnd_allowed = value;
-            if (dnd_allowed == false)
-            {
-                DnD = false;
-            }
-        }
-    }
-
-    private bool IsMouseOn
-    {
-        get
-        {
-            if (GraphMath.IsPointInRect(new Point(Mouse.Position), Rect))
-            {
-                return true;
-            }
-            return false;
-        }
-    }
-    private bool IsPressed
-    {
-        get
-        {
-            if (IsMouseOn && Input.GetMouseButtonDown(0))
-            {
-                pressed = true;
-                return true;
-            }
-            return false;
-        }
-    }
-    private bool IsReleased
-    {
-        get
-        {
-            if (pressed && Input.GetMouseButtonUp(0))
-            {
-                pressed = false;
-                return true;
-            }
-            return false;
-        }
-    }
-
-    public GUIElement()
-    {
-        Rect = new Rect();
-        Position = new Point();
-    }
-
-    private Point Dnd_offset
-    {
-        get
-        {
-            return dnd_offset;
-        }
-
-        set
-        {
-            dnd_offset = value;
-        }
-    }
-
-    public void Processing()
-    {
-        if (DnD_allowed)
-        {
-            if (IsPressed)
-            {
-                DnD = true;
-                Dnd_offset = Position - (new Point(Mouse.Position));
-            }
-            if (IsReleased)
-            {
-                DnD = false;
-            }
-        }
-        if (DnD)
-        {
-            Position = (new Point(Mouse.Position)) + Dnd_offset;
-        }
-    }
-}
-
 public class SystemDraw : GUIElement
 {
     private Texture2D back;
@@ -260,8 +104,12 @@ public class SystemDraw : GUIElement
             name = value;
         }
     }
-    
 
+	public override void Draw()
+	{
+		base.Draw();
+		GUI.Box(Rect, Mouse.Position.x.ToString() + " " + Mouse.Position.y.ToString());
+	}
 
 }
 
@@ -324,10 +172,10 @@ public class SystemParent : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Box(sys_draw.Rect, Mouse.Position.x.ToString() + " " + Mouse.Position.y.ToString());//sys_draw.Name);
+		sys_draw.Draw();
     }
     //Update is called once per turn
-    void Turn()
+    public virtual void Turn()
     {
 
     }
